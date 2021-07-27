@@ -27,10 +27,10 @@ class FetchRewardListViewModel(
         }
     }
 
-    private fun filterFetchRewardListByName(fetchRewardItemList: List<FetchRewardItem>): List<FetchRewardItem> =
+    fun filterFetchRewardListByName(fetchRewardItemList: List<FetchRewardItem>): List<FetchRewardItem> =
         fetchRewardItemList.filter { !it.name.isNullOrEmpty() }
 
-    private fun sortFetchRewardListByListIdThenName(fetchRewardItemList: List<FetchRewardItem>): List<FetchRewardItem> =
+    fun sortFetchRewardListByListIdThenName(fetchRewardItemList: List<FetchRewardItem>): List<FetchRewardItem> =
         // Name: Not sure if I should sort with number in name field or just name as a str?
         fetchRewardItemList.sortedWith(compareBy({ it.listId }, { it.name }))
 
