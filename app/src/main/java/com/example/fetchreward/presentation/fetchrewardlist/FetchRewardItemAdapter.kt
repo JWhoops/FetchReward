@@ -1,4 +1,4 @@
-package com.example.fetchreward.presentation
+package com.example.fetchreward.presentation.fetchrewardlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

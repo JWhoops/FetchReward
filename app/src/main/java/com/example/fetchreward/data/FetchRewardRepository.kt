@@ -2,19 +2,20 @@ package com.example.fetchreward.data
 
 import android.util.Log
 import com.example.fetchreward.data.model.FetchRewardItem
-import com.example.fetchreward.data.network.FetchRewardNetwork
+import com.example.fetchreward.data.network.FetchRewardApi
+import javax.inject.Inject
 
-object FetchRewardRepository {
+class FetchRewardRepository @Inject constructor(
+    private val fetchRewardApi: FetchRewardApi
+) {
 
     suspend fun getFetchRewardItemsFromApi(): List<FetchRewardItem> {
-        val fetchRewardList = listOf<FetchRewardItem>()
+        var fetchRewardList = listOf<FetchRewardItem>()
         try {
-            val response = FetchRewardNetwork.getFetchRewardList()
+            val response = fetchRewardApi.getFetchRewardList()
             val body = response.body()
-            return if (response.isSuccessful && body != null) {
-                body
-            } else {
-                fetchRewardList
+            if (response.isSuccessful && body != null) {
+                fetchRewardList = body
             }
         } catch (exception: Exception) {
             Log.i("MyTag", exception.message.toString())
