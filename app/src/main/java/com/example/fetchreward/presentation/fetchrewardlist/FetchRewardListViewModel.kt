@@ -19,9 +19,13 @@ class FetchRewardListViewModel(
         emit(FetchRewardListUIState.Loading)
         try {
             var fetchRewardItemList = getFetchRewardItemsUseCase.execute()
-            fetchRewardItemList = filterFetchRewardListByName(fetchRewardItemList)
-            fetchRewardItemList = sortFetchRewardListByListIdThenName(fetchRewardItemList)
-            emit(FetchRewardListUIState.Success(fetchRewardItemList))
+            if (fetchRewardItemList.isNotEmpty()) {
+                fetchRewardItemList = filterFetchRewardListByName(fetchRewardItemList)
+                fetchRewardItemList = sortFetchRewardListByListIdThenName(fetchRewardItemList)
+                emit(FetchRewardListUIState.Success(fetchRewardItemList))
+            } else {
+                emit(FetchRewardListUIState.Error("Network Request failed!"))
+            }
         } catch (exception: Exception) {
             emit(FetchRewardListUIState.Error("Network Request failed!"))
         }

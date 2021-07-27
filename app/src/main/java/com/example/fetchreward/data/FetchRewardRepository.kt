@@ -18,7 +18,7 @@ class FetchRewardRepository @Inject constructor(
                 fetchRewardList = body
             }
         } catch (exception: Exception) {
-            Log.i("MyTag", exception.message.toString())
+            Log.e("FetchRewardApi", exception.message.toString())
         }
         return fetchRewardList
     }
