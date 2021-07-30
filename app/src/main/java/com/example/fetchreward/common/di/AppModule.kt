@@ -1,17 +1,18 @@
-package com.example.fetchreward.common.di.app
+package com.example.fetchreward.common.di
 
 import com.example.fetchreward.common.Constants
 import com.example.fetchreward.data.network.FetchRewardApi
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
-    // can also create a NetworkModule for two instance below
-    @AppScope
     @Provides
     fun retrofit(): Retrofit =
         Retrofit.Builder()
@@ -19,7 +20,6 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    @AppScope
     @Provides
     fun fetchRewardApi(retrofit: Retrofit): FetchRewardApi =
         retrofit.create(FetchRewardApi::class.java)

@@ -3,29 +3,25 @@ package com.example.fetchreward.presentation.fetchrewardlist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fetchreward.R
 import com.example.fetchreward.data.model.FetchRewardItem
 import com.example.fetchreward.databinding.ActivityFetchRewardListBinding
 import com.example.fetchreward.presentation.common.BaseActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FetchRewardListActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: FetchRewardListViewModelFactory
-
-    private lateinit var fetchRewardListviewModel: FetchRewardListViewModel
+    private val fetchRewardListviewModel: FetchRewardListViewModel by viewModels()
     private lateinit var binding: ActivityFetchRewardListBinding
     private lateinit var adapter: FetchRewardItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_reward_list)
-        injector.inject(this)
-        fetchRewardListviewModel = ViewModelProvider(this, viewModelFactory).get(FetchRewardListViewModel::class.java)
 
         initFetchRewardRecyclerView()
         loadFetchRewardItemsList()

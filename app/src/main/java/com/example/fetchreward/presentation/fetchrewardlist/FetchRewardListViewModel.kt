@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.fetchreward.data.model.FetchRewardItem
 import com.example.fetchreward.domain.GetFetchRewardItemsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FetchRewardListViewModel(
+@HiltViewModel
+class FetchRewardListViewModel @Inject constructor(
     private val getFetchRewardItemsUseCase: GetFetchRewardItemsUseCase
 ) : ViewModel() {
 

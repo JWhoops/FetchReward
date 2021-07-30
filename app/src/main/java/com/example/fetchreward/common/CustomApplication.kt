@@ -1,14 +1,7 @@
 package com.example.fetchreward.common
 
 import android.app.Application
-import com.example.fetchreward.common.di.app.AppComponent
-import com.example.fetchreward.common.di.app.DaggerAppComponent
+import dagger.hilt.android.HiltAndroidApp
 
-class CustomApplication : Application() {
-
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent
-            .factory()
-            .create(this)
-    }
-}
+@HiltAndroidApp
+class CustomApplication : Application()
