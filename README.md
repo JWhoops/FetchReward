@@ -1,6 +1,6 @@
 # FetchReward
-branch differences:
-main: Dagger2
+Branch differences: <br>
+main: Dagger2<br>
 hilt: Dagger-hilt
 
 Architectural Patter: MVVM + Dependency Injection
