@@ -24,10 +24,10 @@ class FetchRewardListActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_reward_list)
 
         initFetchRewardRecyclerView()
-        loadFetchRewardItemsList()
+        observeViewModel()
     }
 
-    private fun loadFetchRewardItemsList() {
+    private fun observeViewModel() {
         fetchRewardListviewModel.getFetchRewardItems().observe(this, { fetchRewardListUiState ->
             if (fetchRewardListUiState != null) {
                 render(fetchRewardListUiState)
