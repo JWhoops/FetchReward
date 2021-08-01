@@ -1,41 +1,44 @@
 package com.example.fetchreward.presentation.fetchrewardlist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.mvrx.MavericksView
+import com.airbnb.mvrx.fragmentViewModel
+import com.airbnb.mvrx.withState
 import com.example.fetchreward.R
 import com.example.fetchreward.data.model.FetchRewardItem
 import com.example.fetchreward.databinding.ActivityFetchRewardListBinding
-import com.example.fetchreward.presentation.common.BaseActivity
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class FetchRewardListActivity : BaseActivity() {
+class FetchRewardListFragment : Fragment(), MavericksView {
 
-    private val fetchRewardListviewModel: FetchRewardListViewModel by viewModels()
+    private val fetchRewardListviewModel: FetchRewardListViewModel by fragmentViewModel()
     private lateinit var binding: ActivityFetchRewardListBinding
     private lateinit var adapter: FetchRewardItemAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_reward_list)
+        binding = DataBindingUtil.inflate(inflater, R.layout.activity_fetch_reward_list, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initFetchRewardRecyclerView()
-        observeViewModel()
     }
 
-    private fun observeViewModel() {
-        fetchRewardListviewModel.getFetchRewardItems().observe(this, { fetchRewardListUiState ->
-            if (fetchRewardListUiState != null) {
-                render(fetchRewardListUiState)
-            }
-        })
+    override fun invalidate() {
+        withState(fetchRewardListviewModel) { state ->
+            renderList(state.fetchRewardListUIState)
+        }
     }
 
-    private fun render(uiState: FetchRewardListUIState) {
+    private fun renderList(uiState: FetchRewardListUIState) {
         when (uiState) {
             is FetchRewardListUIState.Error   -> onListLoadError(uiState)
             FetchRewardListUIState.Loading    -> onListLoading()
@@ -60,7 +63,7 @@ class FetchRewardListActivity : BaseActivity() {
     private fun initFetchRewardRecyclerView() {
         adapter = FetchRewardItemAdapter()
         binding.fetchRewardItemRecyclerView.let { view ->
-            view.layoutManager = LinearLayoutManager(this)
+            view.layoutManager = LinearLayoutManager(requireContext())
             view.adapter = adapter
         }
     }
@@ -79,7 +82,7 @@ class FetchRewardListActivity : BaseActivity() {
     }
 
     private fun showNetworkError(uiState: FetchRewardListUIState.Error) {
-        Toast.makeText(this, uiState.message, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
     }
 
 }

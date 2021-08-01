@@ -1,6 +1,6 @@
 package com.example.fetchreward.presentation.fetchrewardlist
 
-import com.example.fetchreward.data.model.FetchRewardItem
+import com.example.fetchreward.data.model.FetchRewardResponse
 import com.example.fetchreward.domain.GetFetchRewardItemsUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
@@ -24,14 +24,14 @@ class FetchRewardListViewModelTest {
 
     @Test
     fun `test if list item with null name is filtered`() {
-        val listItem = listOf(FetchRewardItem(1, 1, null))
+        val listItem = listOf(FetchRewardResponse(1, 1, null))
         val filteredList = testSubject.filterFetchRewardListByName(listItem)
         assertTrue(filteredList.isEmpty())
     }
 
     @Test
     fun `test if list item with empty string name is filtered`() {
-        val listItem = listOf(FetchRewardItem(1, 1, ""))
+        val listItem = listOf(FetchRewardResponse(1, 1, ""))
         val filteredList = testSubject.filterFetchRewardListByName(listItem)
         assertTrue(filteredList.isEmpty())
     }
@@ -39,9 +39,9 @@ class FetchRewardListViewModelTest {
     @Test
     fun `test if list item with empty string or null name is filtered`() {
         val listItem = listOf(
-            FetchRewardItem(1, 1, ""),
-            FetchRewardItem(1, 1, null),
-            FetchRewardItem(1, 1, "Hello")
+            FetchRewardResponse(1, 1, ""),
+            FetchRewardResponse(1, 1, null),
+            FetchRewardResponse(1, 1, "Hello")
         )
         val filteredList = testSubject.filterFetchRewardListByName(listItem)
         assertEquals(filteredList.size, 1)
@@ -49,9 +49,9 @@ class FetchRewardListViewModelTest {
 
     @Test
     fun `test if sortFetchRewardListByListIdThenName make list sorted by listId then by name`() {
-        val item1 = FetchRewardItem(1, 1, "1")
-        val item2 = FetchRewardItem(2, 2, "2")
-        val item3 = FetchRewardItem(3, 1, "3")
+        val item1 = FetchRewardResponse(1, 1, "1")
+        val item2 = FetchRewardResponse(2, 2, "2")
+        val item3 = FetchRewardResponse(3, 1, "3")
         val list = listOf(item1, item2, item3).shuffled()
         val sortedList = testSubject.sortFetchRewardListByListIdThenName(list)
         assertEquals(sortedList[0], item1)
